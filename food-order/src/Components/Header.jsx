@@ -1,6 +1,22 @@
+import { useContext } from 'react';
+import Button from './UI/Button';
 import logoImg from '../assets/logo.jpg';
+import CartContext from '../store/CartContext';
+import UserProgressContext from '../store/UserProgressContext';
 
 function Header() {
+const cartCtx = useContext(CartContext);
+const userProgressCtx = useContext(UserProgressContext);
+
+const totalCartItems = cartCtx.items.reduce((totalNumberOfItems, item) => {
+  return totalNumberOfItems + item.quantity;
+}, 0);
+
+function handleShowCart() {
+  userProgressCtx.showCart();
+}
+
+
   return (
     <header id='main-header'>
       <div id='title'>
@@ -8,7 +24,9 @@ function Header() {
         <h1>ReactOrder</h1>
       </div>
       <nav>
-        <button>Cart(0)</button>
+        <Button textOnly onClick={handleShowCart} >
+          Cart({totalCartItems})
+          </Button>
       </nav>
     </header>
   );
